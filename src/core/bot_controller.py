@@ -13,13 +13,13 @@ from typing import Dict, List, Optional
 
 from loguru import logger
 
-from src.core.state_machine import StateMachine
-from src.core.task_scheduler import TaskScheduler
-from src.device.adb_controller import ADBController
-from src.device.emulator_manager import EmulatorManager
-from src.vision.yolo_detector import YOLODetector
-from src.anti_ban.behavior_randomizer import BehaviorRandomizer
-from src.utils.metrics import MetricsCollector
+from core.state_machine import StateMachine
+from core.task_scheduler import TaskScheduler
+from device.adb_controller import ADBController
+from device.emulator_manager import EmulatorManager
+from vision.yolo_detector import YOLODetector
+from anti_ban.behavior_randomizer import BehaviorRandomizer
+from utils.metrics import MetricsCollector
 
 
 class BotController:

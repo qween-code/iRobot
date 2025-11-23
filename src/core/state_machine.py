@@ -40,11 +40,11 @@ class StateMachine:
 
     def _load_executors(self):
         """Load task executor modules"""
-        from src.actions.farming import FarmingExecutor
-        from src.actions.zombie_hunting import ZombieHuntingExecutor
-        from src.actions.troop_management import TroopManagementExecutor
-        from src.actions.building import BuildingExecutor
-        from src.actions.events import EventsExecutor
+        from actions.farming import FarmingExecutor
+        from actions.zombie_hunting import ZombieHuntingExecutor
+        from actions.troop_management import TroopManagementExecutor
+        from actions.building import BuildingExecutor
+        from actions.events import EventsExecutor
 
         self.executors = {
             "resource_farming": FarmingExecutor(self.config, self.adb, self.vision, self.behavior),
