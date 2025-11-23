@@ -1,0 +1,151 @@
+# ==========================================
+# AUTO-EVENT DETECTION & PARTICIPATION
+# ==========================================
+# Add this section to your main config file under 'automation:'
+
+events:
+  # ========== AUTO-DETECTION ==========
+  auto_detect_events: true
+  detection_interval_minutes: 15  # Check for new events every 15 min
+
+  # ========== GOLDEN ZOMBIES EVENT ==========
+  golden_zombies:
+    enabled: true
+    priority: "high"
+
+    # Event strategy
+    phase1_hunts: 20  # Number of small golden zombies to hunt (discovery)
+    phase2_rallies: 10  # Number of boss rallies to join
+
+    # Shop usage
+    use_courage_medals_shop: true
+    shop_items_priority:
+      - hero_shards
+      - speedups
+      - resources
+
+  # ========== ZOMBIE INVASION ==========
+  zombie_invasion:
+    enabled: true
+    priority: "high"
+
+    auto_collect_digs: true
+    auto_collect_eggs: true
+    auto_radar_quests: true
+
+  # ========== KVK (Kingdom vs Kingdom) ==========
+  kvk:
+    enabled: false  # High risk - disable by default
+    priority: "medium"
+    participation_probability: 0.3  # 30% chance (conservative)
+
+    # Safe mode: Only defensive actions
+    safe_mode: true
+    only_alliance_marches: true  # Don't solo attack
+
+  # ========== ALLIANCE WAR ==========
+  alliance_war:
+    enabled: false  # High risk
+    priority: "medium"
+    participation_probability: 0.5
+
+  # ========== RESOURCE MADNESS ==========
+  resource_madness:
+    enabled: true
+    priority: "high"
+
+    # Increase farming during this event
+    max_farms: 10
+    prioritize_farming: true
+
+  # ========== TROOP TRAINING EVENT ==========
+  troop_training:
+    enabled: true
+    priority: "medium"
+
+    # Continuously train troops
+    continuous_training: true
+    train_all_types: true  # Infantry, rider, shooter
+
+  # ========== HERO TRIAL ==========
+  hero_trial:
+    enabled: true
+    priority: "medium"
+
+    auto_complete_trials: true
+    use_best_heroes: true
+
+  # ========== BUILDING/RESEARCH EVENTS ==========
+  building_event:
+    enabled: true
+    priority: "low"
+
+    # Start upgrades during event
+    trigger_upgrades: true
+
+  research_event:
+    enabled: true
+    priority: "low"
+
+    trigger_research: true
+
+  # ========== DAILY QUESTS ==========
+  daily_quests:
+    enabled: true
+    priority: "medium"
+
+    complete_all: true
+    collect_rewards: true
+
+  # ========== GENERAL EVENT SETTINGS ==========
+  general:
+    # Auto-collect event rewards
+    auto_collect_rewards: true
+    reward_collection_interval_hours: 2
+
+    # Notification for new events
+    notify_new_events: true
+
+    # Event participation limits (anti-ban)
+    max_events_per_day: 5
+    min_delay_between_events_minutes: 15
+
+# ==========================================
+# DYNAMIC UI ADAPTATION
+# ==========================================
+ui_adaptation:
+  enabled: true
+
+  # Auto-learn UI changes after game updates
+  auto_learn_mode: true
+
+  # Calibration settings
+  auto_calibrate_on_start: true
+  calibration_interval_days: 7  # Re-calibrate weekly
+
+  # UI change detection
+  detect_ui_changes: true
+  pause_on_ui_change: true  # Pause bot if UI significantly changed
+
+  # Template matching settings
+  multi_scale_matching: true
+  confidence_threshold: 0.8
+  fuzzy_matching: true  # More tolerant to minor UI changes
+
+# ==========================================
+# GAME VERSION TRACKING
+# ==========================================
+version_tracking:
+  enabled: true
+
+  # Auto-detect game updates
+  check_for_updates: true
+  update_check_interval_hours: 6
+
+  # Action on update detected
+  pause_on_update: true
+  notify_on_update: true
+
+  # Version fingerprinting
+  use_ui_fingerprinting: true
+  use_apk_version: true

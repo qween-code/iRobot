@@ -1,0 +1,65 @@
+# ==========================================
+# ADVANCED ALLIANCE/CLAN FEATURES
+# ==========================================
+# Add this section to your main config file under 'automation:'
+
+alliance:
+  # ========== HELPS ==========
+  auto_send_helps: true
+  auto_collect_helps: true
+  max_helps_per_session: 50
+  help_cooldown_minutes: 5  # Minimum time between help sessions
+
+  # ========== DONATIONS ==========
+  auto_donate: true
+  donation:
+    enabled: true
+    max_per_day: 10  # Daily donation limit
+    cooldown_minutes: 30  # Time between donations
+
+    # Donation types (prioritize what to donate)
+    types:
+      - gold
+      - resources
+
+    # Resource safety threshold (keep at least this much)
+    min_resource_threshold: 0.3  # Keep 30% of resources
+
+  # ========== GIFTS ==========
+  auto_collect_gifts: true
+  gift_collection_interval_hours: 1  # Check for gifts every hour
+
+  # ========== RALLIES ==========
+  auto_join_rallies: true
+  rallies:
+    enabled: true
+    max_per_day: 10
+
+    # Rally types to join
+    types:
+      golden_zombie: true  # Golden zombie rallies
+      boss_fights: true    # Boss rallies
+      player_attacks: false  # Risky! May result in PvP
+
+    # Participation probability (anti-ban)
+    participation_probability: 0.7  # 70% chance to join
+
+  # ========== ALLIANCE SHOP ==========
+  alliance_shop:
+    enabled: false  # Enable auto-purchasing from alliance shop
+    items_to_buy:
+      - speedups
+      - hero_shards
+      - advanced_recruitment
+    max_points_to_spend_per_day: 5000
+
+  # ========== ALLIANCE EVENTS ==========
+  alliance_events:
+    auto_participate: true
+    event_participation_probability: 0.8  # 80% chance
+
+  # ========== CONTINUOUS OPERATIONS ==========
+  continuous_mode:
+    enabled: true  # Keep checking for new helps/donations
+    check_interval_minutes: 10  # Check every 10 minutes
+    priority: "high"  # high | normal | low

@@ -18,19 +18,46 @@
 - ✅ **Zombie Hunting**: Smart type/level selection with stamina management
 - ✅ **Troop Management**: Auto-train, heal, promote troops
 - ✅ **Base Building**: Intelligent upgrade prioritization
-- ✅ **Alliance Events**: Auto-collect helps, join rallies, Golden Zombies
+- ✅ **Alliance Activities**: Auto-helps, donations, gifts, rallies
+
+### 🆕 Advanced Alliance/Clan Features
+- 🤝 **Continuous Alliance Helps**: Auto-send helps to clan members every 5 minutes
+- 💰 **Auto-Donations**: Automatic technology donations with resource safety thresholds
+- 🎁 **Gift Collection**: Auto-collect alliance gifts on schedule
+- ⚔️ **Rally Coordination**: Smart rally joining with participation probability
+- 🏪 **Alliance Shop**: Auto-purchase priority items (speedups, hero shards)
+- 📊 **Alliance Event Participation**: Automatic event detection and participation
+
+### 🆕 Game Update Adaptation
+- 🔄 **Dynamic UI Adaptation**: Auto-detect and adapt to UI changes after game updates
+- 🎮 **Version Detection**: Fingerprint-based game version tracking
+- 📸 **Template Learning**: Self-learning UI element positions
+- 🔍 **Multi-Scale Matching**: Handle UI scale changes (0.8x - 1.2x)
+- ⚡ **Auto-Calibration**: Weekly UI recalibration for stability
+
+### 🆕 Event Detection & Auto-Participation
+- 🧟 **Golden Zombies Event**: 2-phase strategy (discovery → boss rallies)
+- 🎯 **Zombie Invasion**: Auto-collect digs, eggs, radar quests
+- 👑 **KvK Support**: Kingdom vs Kingdom with safe mode
+- 🛡️ **Alliance War**: Coordinated alliance warfare (conservative mode)
+- 💎 **Resource Madness**: Prioritize farming during bonus events
+- 🏋️ **Troop Training Events**: Continuous training optimization
+- 🦸 **Hero Trials**: Auto-complete with best hero selection
+- 📅 **Daily Quests**: Complete all daily tasks automatically
 
 ### Advanced AI
 - 🧠 **YOLOv8 Detection**: AI-powered UI element recognition
 - 🎯 **Smart Decision Engine**: State machine with priority queues
 - 📊 **Resource Optimization**: ML-based hero/troop selection
 - 🔄 **Dynamic Adaptation**: Auto-adjust to game updates
+- 🎪 **Event Intelligence**: Auto-detect active events every 15 minutes
 
 ### Anti-Ban System
 - 🕵️ **Human Behavior Simulation**: Gaussian delays, Bezier curves
 - 🌐 **Network Masking**: Proxy rotation, device fingerprinting
 - ⏱️ **Session Patterns**: Realistic play/break cycles
 - 📉 **Risk Monitoring**: Real-time detection risk assessment
+- 🎲 **Randomization**: Event participation probability (30-80%)
 
 ### Scaling & Infrastructure
 - 🐳 **Docker Native**: Multi-instance support (50+ accounts)
