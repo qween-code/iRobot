@@ -1,0 +1,198 @@
+# LastWarAutoBot Pro - Python Dependencies
+# Python 3.12+
+
+# ============================================
+# CORE DEPENDENCIES
+# ============================================
+
+# Computer Vision
+opencv-python==4.8.1.78
+opencv-contrib-python==4.8.1.78
+numpy==1.24.3
+pillow==10.0.0
+
+# AI/ML
+torch==2.1.0
+torchvision==0.16.0
+ultralytics==8.0.200  # YOLOv8
+onnx==1.15.0
+onnxruntime==1.16.0
+
+# OCR
+pytesseract==0.3.10
+easyocr==1.7.0
+
+# ============================================
+# DEVICE CONTROL
+# ============================================
+
+# Android Debug Bridge
+pure-python-adb==0.3.0.dev0
+adbutils==1.2.0
+
+# Automation
+pyautogui==0.9.54
+pydirectinput==1.0.4
+pynput==1.7.6
+
+# ============================================
+# WEB & API
+# ============================================
+
+# Web Framework
+flask==3.0.0
+flask-cors==4.0.0
+flask-socketio==5.3.5
+flask-restful==0.3.10
+
+# WebSockets
+python-socketio==5.10.0
+websocket-client==1.6.4
+
+# HTTP Clients
+requests==2.31.0
+httpx==0.25.0
+aiohttp==3.9.0
+
+# Data Validation
+pydantic==2.5.0
+pydantic-settings==2.1.0
+
+# ============================================
+# DATABASE
+# ============================================
+
+# PostgreSQL
+psycopg2-binary==2.9.9
+sqlalchemy==2.0.23
+
+# Redis
+redis==5.0.1
+hiredis==2.2.3
+
+# ============================================
+# UTILITIES
+# ============================================
+
+# Configuration
+pyyaml==6.0.1
+python-dotenv==1.0.0
+configparser==6.0.0
+
+# Logging
+loguru==0.7.2
+colorlog==6.8.0
+
+# Scheduling
+schedule==1.2.0
+apscheduler==3.10.4
+
+# CLI
+click==8.1.7
+rich==13.7.0
+typer==0.9.0
+
+# Math & Statistics
+scipy==1.11.3
+scikit-learn==1.3.2
+pandas==2.1.3
+
+# Randomization & Anti-Ban
+faker==19.12.0
+mimesis==12.1.0
+
+# ============================================
+# MONITORING & METRICS
+# ============================================
+
+# Prometheus
+prometheus-client==0.19.0
+
+# Sentry (Error Tracking)
+sentry-sdk==1.38.0
+
+# Performance
+psutil==5.9.6
+py-cpuinfo==9.0.0
+
+# ============================================
+# NOTIFICATIONS
+# ============================================
+
+# Telegram
+python-telegram-bot==20.7
+
+# Discord
+discord-webhook==1.3.0
+discord.py==2.3.2
+
+# ============================================
+# SECURITY
+# ============================================
+
+# Encryption
+cryptography==41.0.7
+pycryptodome==3.19.0
+
+# JWT
+pyjwt==2.8.0
+
+# ============================================
+# TESTING (Dev Dependencies)
+# ============================================
+
+# Core Testing
+pytest==7.4.3
+pytest-asyncio==0.21.1
+pytest-cov==4.1.0
+pytest-mock==3.12.0
+
+# Test Utilities
+faker==19.12.0
+factory-boy==3.3.0
+
+# ============================================
+# DEVELOPMENT TOOLS
+# ============================================
+
+# Code Quality
+black==23.11.0
+flake8==6.1.0
+pylint==3.0.3
+mypy==1.7.1
+
+# Pre-commit
+pre-commit==3.5.0
+
+# Documentation
+sphinx==7.2.6
+mkdocs==1.5.3
+mkdocs-material==9.5.0
+
+# ============================================
+# DOCKER & DEPLOYMENT
+# ============================================
+
+# Docker Python Client
+docker==7.0.0
+
+# Kubernetes
+kubernetes==28.1.0
+
+# ============================================
+# EXTRAS
+# ============================================
+
+# Image Processing
+scikit-image==0.22.0
+imageio==2.33.0
+
+# Video Processing (optional)
+imageio-ffmpeg==0.4.9
+
+# Proxy Support
+requests[socks]==2.31.0
+pysocks==1.7.1
+
+# System Information
+distro==1.8.0

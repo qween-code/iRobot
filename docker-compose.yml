@@ -1,0 +1,170 @@
+version: '3.8'
+
+services:
+  # ==========================================
+  # PostgreSQL Database
+  # ==========================================
+  postgres:
+    image: postgres:15-alpine
+    container_name: lastwar_postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-lastwar_bot}
+      POSTGRES_USER: ${POSTGRES_USER:-botuser}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme123}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    networks:
+      - botnet
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-botuser}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ==========================================
+  # Redis Cache
+  # ==========================================
+  redis:
+    image: redis:7-alpine
+    container_name: lastwar_redis
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-changeme123}
+    volumes:
+      - redis_data:/data
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    networks:
+      - botnet
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ==========================================
+  # Bot Instance (Scalable)
+  # ==========================================
+  bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: lastwarautobot:latest
+    environment:
+      # Database
+      DATABASE_URL: postgresql://${POSTGRES_USER:-botuser}:${POSTGRES_PASSWORD:-changeme123}@postgres:5432/${POSTGRES_DB:-lastwar_bot}
+      REDIS_URL: redis://:${REDIS_PASSWORD:-changeme123}@redis:6379/0
+
+      # Bot Configuration
+      BOT_CONFIG: ${BOT_CONFIG:-configs/default.yaml}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      DEBUG_MODE: ${DEBUG_MODE:-false}
+
+      # ADB Configuration
+      ADB_HOST: ${ADB_HOST:-host.docker.internal}
+      ADB_PORT: ${ADB_PORT:-5555}
+
+      # Anti-Ban
+      ENABLE_RANDOMIZATION: ${ENABLE_RANDOMIZATION:-true}
+
+      # Notifications
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
+      TELEGRAM_CHAT_ID: ${TELEGRAM_CHAT_ID:-}
+      DISCORD_WEBHOOK: ${DISCORD_WEBHOOK:-}
+    volumes:
+      - ./configs:/app/configs
+      - ./models:/models
+      - ./data:/data
+      - ./logs:/logs
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - botnet
+    restart: unless-stopped
+    # Scale with: docker-compose up --scale bot=5
+
+  # ==========================================
+  # Web Dashboard
+  # ==========================================
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: lastwarautobot:latest
+    container_name: lastwar_dashboard
+    command: ["--mode", "dashboard"]
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-botuser}:${POSTGRES_PASSWORD:-changeme123}@postgres:5432/${POSTGRES_DB:-lastwar_bot}
+      REDIS_URL: redis://:${REDIS_PASSWORD:-changeme123}@redis:6379/0
+      FLASK_ENV: ${FLASK_ENV:-production}
+      SECRET_KEY: ${SECRET_KEY:-changeme_secret_key_here}
+    ports:
+      - "${DASHBOARD_PORT:-5000}:5000"
+    volumes:
+      - ./configs:/app/configs
+      - ./logs:/logs
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - botnet
+    restart: unless-stopped
+
+  # ==========================================
+  # Prometheus (Monitoring)
+  # ==========================================
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: lastwar_prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    volumes:
+      - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    ports:
+      - "${PROMETHEUS_PORT:-9090}:9090"
+    networks:
+      - botnet
+    restart: unless-stopped
+
+  # ==========================================
+  # Grafana (Dashboards)
+  # ==========================================
+  grafana:
+    image: grafana/grafana:latest
+    container_name: lastwar_grafana
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-admin}
+      GF_INSTALL_PLUGINS: grafana-piechart-panel
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./docker/grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./docker/grafana/datasources:/etc/grafana/provisioning/datasources
+    ports:
+      - "${GRAFANA_PORT:-3000}:3000"
+    depends_on:
+      - prometheus
+    networks:
+      - botnet
+    restart: unless-stopped
+
+# ==========================================
+# Networks
+# ==========================================
+networks:
+  botnet:
+    driver: bridge
+
+# ==========================================
+# Volumes
+# ==========================================
+volumes:
+  postgres_data:
+  redis_data:
+  prometheus_data:
+  grafana_data:

@@ -1,0 +1,397 @@
+# LastWarAutoBot Pro - Configuration Example
+# Copy this file to configs/myconfig.yaml and customize
+
+# ==========================================
+# ACCOUNT SETTINGS
+# ==========================================
+account:
+  username: "your_account_name"
+  server: "S123"
+  player_level: 25  # Update as you level up
+
+# ==========================================
+# EMULATOR SETTINGS
+# ==========================================
+emulator:
+  type: "ldplayer"  # ldplayer | noxplayer | bluestacks | real_device
+  adb_host: "127.0.0.1"
+  adb_port: 5555
+  resolution: [1920, 1080]
+
+  # Emulator-specific paths (optional)
+  ldplayer:
+    executable: "C:\\LDPlayer\\LDPlayer4.0\\dnplayer.exe"
+    console_executable: "C:\\LDPlayer\\LDPlayer4.0\\ldconsole.exe"
+
+  noxplayer:
+    executable: "C:\\Program Files\\Nox\\bin\\Nox.exe"
+
+# ==========================================
+# AUTOMATION TASKS
+# ==========================================
+automation:
+  # Task priorities (higher = more important)
+  task_priorities:
+    emergency_heal: 100
+    collect_vip: 90
+    building_upgrades: 80
+    resource_farming: 70
+    zombie_hunting: 60
+    troop_training: 50
+    alliance_activities: 40
+    daily_quests: 30
+
+  # Enabled tasks
+  enabled_tasks:
+    - resource_farming
+    - zombie_hunting
+    - troop_management
+    - building_upgrades
+    - alliance_activities
+    - daily_quests
+    - events
+
+  # ==========================================
+  # RESOURCE FARMING
+  # ==========================================
+  farming:
+    enabled: true
+    max_attacks_per_day: 6
+
+    # Resource priorities (1 = highest)
+    resource_priorities:
+      iron: 1
+      food: 2
+      gold: 3
+      meteorite_iron: 4
+      spice: 5
+      quartz: 6
+
+    # Tile selection
+    tile_level_range: [15, 20]  # Min and max tile levels
+    scout_before_attack: true
+    avoid_protected_tiles: true
+
+    # Attack strategy
+    use_rally: false  # Set true for harder tiles
+    rally_wait_time: 300  # seconds
+
+    # Resource thresholds
+    min_resource_to_farm:
+      iron: 100000
+      food: 100000
+      gold: 50000
+
+  # ==========================================
+  # ZOMBIE HUNTING
+  # ==========================================
+  hunting:
+    enabled: true
+
+    # Zombie type priorities
+    zombie_priorities:
+      ironhead: 1  # Iron + Courage Medals
+      glutton: 2   # Food + Hero EXP
+      miser: 3     # Gold + Alliance Points
+
+    # Level selection
+    optimal_level_offset: 2  # player_level + offset
+    min_level: 1
+    max_level: 30
+
+    # Stamina management
+    min_stamina_threshold: 20  # Don't hunt below this
+    use_stamina_items: false   # Auto-use stamina recovery items
+
+    # Hero settings
+    always_use_monica: true  # +39% resource bonus
+    backup_heroes: ["Emma", "Max"]
+
+    # Hunting limits
+    max_hunts_per_session: 100
+    hunt_until_stamina_depleted: true
+
+  # ==========================================
+  # TROOP MANAGEMENT
+  # ==========================================
+  troops:
+    auto_train: true
+    auto_heal: true
+    auto_promote: true
+
+    # Training ratios
+    training_ratio:
+      infantry: 1
+      rider: 1
+      shooter: 1
+
+    # Training settings
+    train_only_when_idle: true
+    min_resource_threshold: 0.2  # Keep 20% resources
+
+    # Healing settings
+    heal_immediately: true
+    heal_speedup_threshold: 300  # Use speedup if < 5 min
+    max_wounded_before_pause: 5000  # Pause if too many wounded
+
+    # Promotion settings
+    promote_priority: "highest_tier"  # highest_tier | balanced
+    min_troops_for_promotion: 1000
+
+  # ==========================================
+  # BUILDING UPGRADES
+  # ==========================================
+  buildings:
+    auto_upgrade: true
+
+    # Upgrade priority order
+    priority_order:
+      - HQ
+      - Barracks
+      - Hospital
+      - Drill_Ground
+      - Walls
+      - Academy
+      - Resource_Buildings
+
+    # Upgrade settings
+    speedup_threshold: 3600  # Use speedup if < 1 hour
+    use_alliance_helps: true
+    max_helps_to_request: 50
+
+    # Resource management
+    keep_resource_buffer: 0.1  # Keep 10% resources
+
+  # ==========================================
+  # ALLIANCE ACTIVITIES
+  # ==========================================
+  alliance:
+    auto_collect_helps: true
+    auto_send_helps: true
+    auto_collect_gifts: true
+
+    # Rally participation
+    auto_join_rallies: true
+    rally_types:
+      golden_zombie: true
+      boss_fights: true
+      player_attacks: false  # Risky for ban
+
+    max_rallies_per_day: 10
+
+    # Events
+    participate_in_events: true
+    event_participation_probability: 0.7  # 70% chance
+
+  # ==========================================
+  # EVENTS
+  # ==========================================
+  events:
+    # Golden Zombies Event
+    golden_zombies:
+      enabled: true
+      phase1_hunts: 20  # Discovery phase
+      phase2_rallies: 10  # Boss killing
+      use_courage_medals_shop: true
+
+    # Zombie Invasion
+    zombie_invasion:
+      enabled: true
+      auto_collect_digs: true
+      auto_collect_eggs: true
+
+    # Daily Quests
+    daily_quests:
+      enabled: true
+      complete_all: true
+
+  # ==========================================
+  # HERO MANAGEMENT
+  # ==========================================
+  heroes:
+    auto_level_up: true
+    auto_equip_gear: true
+
+    # Hero priorities for leveling
+    level_priority:
+      - Monica
+      - Emma
+      - Max
+      - Other_SSR
+      - SR
+      - R
+
+    # Gear fusion
+    auto_fuse_gear: true
+    min_gear_quality_to_keep: "SR"
+
+# ==========================================
+# ANTI-BAN SETTINGS
+# ==========================================
+anti_ban:
+  enable_randomization: true
+
+  # Timing randomization
+  action_delay_range: [5, 60]  # seconds
+  delay_distribution: "gaussian"  # gaussian | uniform
+
+  # Mouse/Touch simulation
+  mouse_movement: "bezier_curves"  # bezier_curves | linear | random
+  click_variance_pixels: 10
+  swipe_variance_pixels: 20
+
+  # Action randomization
+  action_sequence_randomization: 0.15  # 15% variance
+  skip_action_probability: 0.05  # 5% chance to skip non-critical actions
+
+  # Session patterns
+  session_duration_hours: [2, 4]
+  break_duration_minutes: [30, 120]
+  daily_play_hours: [6, 12]  # Total active hours per day
+
+  # Schedule (realistic human patterns)
+  play_schedule:
+    enabled: true
+    peak_hours: [8, 12, 18, 22]  # More active during these hours
+    sleep_hours: [1, 7]  # Minimal/no activity
+
+  # Detection avoidance
+  resource_overflow_prevention: true
+  resource_cap_threshold: 0.8  # Spend when 80% full
+
+  # Network masking
+  use_proxy: false
+  proxy_rotation: true
+  device_fingerprint_randomization: true
+
+  # Risk monitoring
+  pause_on_high_risk: true
+  risk_threshold: 80  # Pause if risk score > 80
+
+# ==========================================
+# AI/ML SETTINGS
+# ==========================================
+ai:
+  # YOLOv8 Model
+  yolo_model: "models/lastwar_v8n.pt"
+  confidence_threshold: 0.6
+  nms_threshold: 0.45
+
+  # OCR Settings
+  ocr_engine: "tesseract"  # tesseract | easyocr
+  ocr_language: "eng"
+  ocr_confidence_threshold: 0.7
+
+  # Decision Engine
+  decision_engine: "state_machine"  # state_machine | rule_based | ml_agent
+  use_ml_predictions: false  # Experimental
+
+  # Template Matching (fallback)
+  template_matching_threshold: 0.8
+  use_template_matching_fallback: true
+
+# ==========================================
+# NOTIFICATIONS
+# ==========================================
+notifications:
+  # Telegram
+  telegram:
+    enabled: false
+    bot_token: "YOUR_BOT_TOKEN"
+    chat_id: "YOUR_CHAT_ID"
+    notify_on:
+      - bot_start
+      - bot_stop
+      - errors
+      - daily_summary
+      - resource_full
+      - high_detection_risk
+
+  # Discord
+  discord:
+    enabled: false
+    webhook_url: "YOUR_WEBHOOK_URL"
+    notify_on:
+      - bot_start
+      - bot_stop
+      - errors
+      - daily_summary
+
+  # Email (optional)
+  email:
+    enabled: false
+    smtp_server: "smtp.gmail.com"
+    smtp_port: 587
+    username: "your_email@gmail.com"
+    password: "your_app_password"
+    recipient: "your_email@gmail.com"
+
+# ==========================================
+# LOGGING
+# ==========================================
+logging:
+  level: "INFO"  # DEBUG | INFO | WARNING | ERROR | CRITICAL
+
+  # Log files
+  file_logging: true
+  log_directory: "logs"
+  log_rotation: "daily"  # daily | weekly | size
+  max_log_size_mb: 100
+  keep_logs_days: 30
+
+  # Console logging
+  console_logging: true
+  colorize_console: true
+
+  # Detailed logging
+  log_actions: true
+  log_screenshots: false  # Warning: Large disk usage
+  screenshot_on_error: true
+
+# ==========================================
+# PERFORMANCE
+# ==========================================
+performance:
+  # Threading
+  use_async: true
+  max_workers: 4
+
+  # Screenshot optimization
+  screenshot_downscale: false
+  screenshot_quality: 85
+  cache_templates: true
+
+  # Resource limits
+  max_cpu_percent: 80
+  max_ram_mb: 2048
+
+  # Retry settings
+  max_retries: 3
+  retry_delay: 5
+  exponential_backoff: true
+
+# ==========================================
+# ADVANCED
+# ==========================================
+advanced:
+  # Development
+  debug_mode: false
+  dry_run: false  # Simulate actions without execution
+
+  # Custom scripts
+  enable_custom_scripts: false
+  custom_scripts_directory: "scripts/custom"
+
+  # API
+  enable_api: false
+  api_host: "0.0.0.0"
+  api_port: 5001
+  api_auth_required: true
+
+  # Database
+  use_database: true
+  database_url: "sqlite:///data/bot.db"  # or PostgreSQL URL
+
+  # Monitoring
+  enable_metrics: false
+  prometheus_port: 9090
