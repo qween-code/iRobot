@@ -17,7 +17,7 @@ from core.state_machine import StateMachine
 from core.task_scheduler import TaskScheduler
 from device.adb_controller import ADBController
 from device.emulator_manager import EmulatorManager
-from vision.yolo_detector import YOLODetector
+from vision.ui_navigator import UINavigator
 from anti_ban.behavior_randomizer import BehaviorRandomizer
 from utils.metrics import MetricsCollector
 
@@ -48,7 +48,7 @@ class BotController:
         )
 
         # Computer vision
-        self.vision = YOLODetector(config.get("ai", {}))
+        self.vision = UINavigator(config.get("ai", {}))
 
         # Anti-ban
         self.behavior = BehaviorRandomizer(config.get("anti_ban", {}))
@@ -118,7 +118,14 @@ class BotController:
     async def _check_vision_models(self) -> bool:
         """Check if vision models are loaded"""
         try:
-            return self.vision.is_loaded()
+            # Check internal detectors
+            yolo_ok = self.vision.yolo.is_loaded()
+            if not yolo_ok:
+                logger.warning("YOLO model not loaded")
+
+            # UINavigator is considered "ready" even if YOLO fails (can use templates)
+            # but we'll log the status
+            return True
         except Exception as e:
             logger.error(f"Vision model check failed: {e}")
             return False
