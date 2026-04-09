@@ -98,16 +98,14 @@ class StateMachine:
         try:
             screenshot = await self.adb.screenshot()
 
-            # Detect UI elements
-            elements = self.vision.detect_elements(screenshot)
-
-            # OCR for numbers (resources, etc.)
-            # TODO: Implement OCR reading
+            # Detect UI elements using UINavigator
+            # Note: UINavigator.find_all_elements returns a combined list from YOLO + Template
+            elements = self.vision.find_all_elements(screenshot)
 
             # Update state
             self.game_state = {
                 "screen": self._identify_screen(elements),
-                "resources": {},  # TODO
+                "resources": {},  # TODO: Use self.vision.get_resource_amount()
                 "troops": {},  # TODO
                 "notifications": self._detect_notifications(elements),
             }
@@ -127,7 +125,15 @@ class StateMachine:
         Returns:
             Screen name (e.g., 'city', 'map', 'menu')
         """
-        # TODO: Implement screen detection logic
+        element_names = [e.get("class") for e in elements]
+
+        if "icon_search" in element_names and "icon_coords" in element_names:
+            return "map"
+        elif "icon_build_menu" in element_names or "building_hq" in element_names:
+            return "city"
+        elif "btn_close" in element_names:
+            return "menu"
+
         return "unknown"
 
     def _detect_notifications(self, elements: list) -> list:
@@ -140,8 +146,11 @@ class StateMachine:
         Returns:
             List of notifications
         """
-        # TODO: Implement notification detection
-        return []
+        notifications = []
+        for e in elements:
+            if "badge_red" in e.get("class", ""):
+                notifications.append(e)
+        return notifications
 
     async def decide_next_action(self) -> Optional[str]:
         """
@@ -152,11 +161,16 @@ class StateMachine:
         """
         await self.update_game_state()
 
+        # Check for emergency notifications first (e.g. Alliance Help)
+        if self._has_alliance_help():
+             return "alliance_activities"
+
         # Priority-based decision tree
         if self._resources_near_cap():
             return "building_upgrades"
 
         if self._troops_wounded():
+            # Only prioritize healing if significant wounded
             return "troop_management"
 
         if self._stamina_available():
@@ -165,24 +179,38 @@ class StateMachine:
         if self._attacks_remaining():
             return "resource_farming"
 
-        return None
+        return "building_upgrades" # Default to building checks if nothing else
+
+    def _has_alliance_help(self) -> bool:
+        """Check for alliance help request"""
+        # Look for shaking hands icon
+        return any("icon_alliance_help" == n.get("class") for n in self.game_state.get("notifications", []))
 
     def _resources_near_cap(self) -> bool:
         """Check if resources near capacity"""
-        # TODO: Implement
+        # Check logic: resource amount > 80% of cap
+        # Since we don't track cap yet, we can use a simpler heuristic
+        # If any resource is "red" (game indicates full), return True
+        # For now, let's assume False to prioritize other tasks
         return False
 
     def _troops_wounded(self) -> bool:
         """Check if troops need healing"""
-        # TODO: Implement
-        return False
+        # Look for "Hospital" having a notification badge
+        # In update_game_state, we find elements.
+        # Ideally we would check for "icon_hospital_plus" or similar
+        return False # Placeholder
 
     def _stamina_available(self) -> bool:
         """Check if stamina available for hunting"""
-        # TODO: Implement
-        return False
+        # OCR stamina value
+        # This requires reading the stamina bar
+        # For now, we can check if we have failed a hunt recently due to stamina
+        # Or blindly return True and let the executor handle the "No Stamina" popup
+        return True
 
     def _attacks_remaining(self) -> bool:
         """Check if daily attacks remaining"""
-        # TODO: Implement
-        return False
+        # This state should be tracked in a database/file, not just vision
+        # For now, assume yes
+        return True

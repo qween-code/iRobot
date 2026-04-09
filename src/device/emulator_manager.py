@@ -132,5 +132,31 @@ class EmulatorManager:
     async def stop(self):
         """Stop emulator"""
         logger.info("Stopping emulator...")
-        # TODO: Implement emulator shutdown logic
-        pass
+
+        try:
+            if self.emulator_type == "ldplayer":
+                executable = self.config.get("ldplayer", {}).get("executable")
+                # LDPlayer uses "quit" or "quitall" command usually via console or taskkill
+                # Here we try a generic taskkill for Windows or kill for Linux/Mac
+                # This is a basic implementation
+                cmd = "taskkill /F /IM dnplayer.exe"  # Windows
+                # For Linux/Mac it might be different, but emulators are mostly Windows based
+
+                await asyncio.create_subprocess_shell(
+                    cmd,
+                    stdout=asyncio.subprocess.PIPE,
+                    stderr=asyncio.subprocess.PIPE,
+                )
+            elif self.emulator_type == "noxplayer":
+                cmd = "taskkill /F /IM Nox.exe"
+                await asyncio.create_subprocess_shell(
+                    cmd,
+                    stdout=asyncio.subprocess.PIPE,
+                    stderr=asyncio.subprocess.PIPE,
+                )
+
+            self.running = False
+            logger.success("Emulator stopped signal sent")
+
+        except Exception as e:
+            logger.error(f"Failed to stop emulator: {e}")
